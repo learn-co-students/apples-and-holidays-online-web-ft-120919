@@ -25,13 +25,17 @@ def add_supply_to_winter_holidays(holiday_hash, supply)
   # holiday_hash is identical to the one above
   # add the second argument, which is a supply, to BOTH the
   # Christmas AND the New Year's arrays
-  holiday_hash.each do |season, holiday|
-    if season == :winter
-      holiday[:christmas] << supply
-      holiday[:new_years] << supply
-      holiday_hash
-    end
+
+  holiday_hash[:winter].each do |holiday, supply_array|
+    supply_array << supply
   end
+  # holiday_hash.each do |season, holiday|
+  #   if season == :winter
+  #     holiday[:christmas] << supply
+  #     holiday[:new_years] << supply
+  #     holiday_hash
+  #   end
+  # end
 end
 
 
@@ -72,7 +76,7 @@ def all_supplies_in_holidays(holiday_hash)
   holiday_hash.each do |holiday, items|
     puts holiday.to_s.capitalize << ":"
     items.each do |holiday, items|
-      puts "  #{holiday.to_s.split("_").map { |word| word.capitalize}.join(" ")}: #{items.join(", ")}"
+      puts "  #{holiday.to_s.split("_").map {|i| i.capitalize}.join(" ")}: #{items.join(", ")}"
       # binding.pry
     end
   end
@@ -80,17 +84,35 @@ def all_supplies_in_holidays(holiday_hash)
   # puts holiday.keys[0].to_s.capitalize << ":" && holiday[:christmas].to_s
 end
 
+  # given that holiday_hash looks like this:
+  # {
+  #   :winter => {
+  #     :christmas => ["Lights", "Wreath"],
+  #     :new_years => ["Party Hats"]
+  #   },
+  #   :summer => {
+  #     :fourth_of_july => ["Fireworks", "BBQ"]
+  #   },
+  #   :fall => {
+  #     :thanksgiving => ["Turkey"]
+  #   },
+  #   :spring => {
+  #     :memorial_day => ["BBQ"]
+  #   }
+  # }
+  # return the second element in the 4th of July array
+
 def all_holidays_with_bbq(holiday_hash)
   holiday_hash.map do |season, holiday|
     holiday_hash[season].map do |holiday, items|
-      if holiday_hash[season][holiday].include?("BBQ")
-        binding.pry
-        return holiday_hash[season].keys
+      if items.include?("BBQ")
+        holiday
       end
     end
-  end
+  end.flatten.compact
 end
 
+# holiday_hash[season][holiday].include?("BBQ")
 
 
 # return an array of holiday names (as symbols) where supply lists
