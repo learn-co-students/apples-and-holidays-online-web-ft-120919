@@ -32,7 +32,7 @@ describe "holiday_supplies_hash" do
   # Write a method that adds a supply to all Winter holidays
   describe "#add_supply_to_winter_holidays" do
     it "iterates through winter holidays adds a supply to each one" do
-      add_supply_to_winter_holidays(holiday_supplies, "Balloons")
+      add_supply_to_winter_holiday(holiday_supplies, "Balloons")
       expect(holiday_supplies[:winter][:christmas]).to include("Balloons")
       expect(holiday_supplies[:winter][:new_years]).to include("Balloons")
     end
